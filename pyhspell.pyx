@@ -31,7 +31,7 @@ __enum_splits_basewords_res = []
 
 from collections import namedtuple
 WordSplitRes = namedtuple('WordEnumSplit', ['word', 'baseword', 'preflen', 'prefspec'])
-LinginfoWord = namedtuple('LinginfoWord', ['word', 'linginfo'])
+LinginfoWord = namedtuple('LinginfoWord', ['word', 'linginfo', 'stem'])
 cdef class Hspell(object):
     cdef dict_radix* hspell_dict
 
@@ -177,7 +177,7 @@ cdef class Hspell(object):
                     if linginfo_desc2ps(desc, j):
                         ling_data = (<bytes>buf).decode('iso8859-8')
                         word_mean = (<bytes>linginfo_stem2text(stem, j)).decode('iso8859-8')
-                        res.append(LinginfoWord(bytesword.decode('iso8859-8'), ling_data))
+                        res.append(LinginfoWord(bytesword.decode('iso8859-8'), ling_data, word_mean))
                     j += 1
 
         return res
